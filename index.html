@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Market Radar</title>
+
+<style>
+
+body{
+background:#0b0f19;
+color:white;
+font-family:Arial;
+text-align:center;
+}
+
+.card{
+background:#1a1f2e;
+margin:20px;
+padding:20px;
+border-radius:15px;
+}
+
+.price{
+font-size:26px;
+margin:10px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>Market Radar</h1>
+
+<div class="card">
+<h2>Oil</h2>
+<div id="brent" class="price">Loading...</div>
+<div id="wti" class="price">Loading...</div>
+</div>
+
+<div class="card">
+<h2>Markets</h2>
+<div id="sp500" class="price">Loading...</div>
+<div id="nasdaq" class="price">Loading...</div>
+</div>
+
+<div class="card">
+<h2>Gold</h2>
+<div id="gold" class="price">Loading...</div>
+</div>
+
+<script>
+
+async function loadPrices(){
+
+try{
+
+const response = await fetch("https://market-radar-nz0y.onrender.com/prices");
+
+const data = await response.json();
+
+document.getElementById("brent").innerText = "Brent: " + data.brent.toFixed(2);
+document.getElementById("wti").innerText = "WTI: " + data.wti.toFixed(2);
+document.getElementById("gold").innerText = "Gold: " + data.gold.toFixed(2);
+document.getElementById("sp500").innerText = "S&P500: " + data.sp500.toFixed(2);
+document.getElementById("nasdaq").innerText = "Nasdaq: " + data.nasdaq.toFixed(2);
+
+}catch(error){
+
+console.log("API error:", error);
+
+document.getElementById("brent").innerText = "Server starting...";
+document.getElementById("wti").innerText = "";
+document.getElementById("gold").innerText = "";
+document.getElementById("sp500").innerText = "";
+document.getElementById("nasdaq").innerText = "";
+
+}
+
+}
+
+loadPrices();
+
+setInterval(loadPrices,30000);
+
+</script>
+
+</body>
+</html>
