@@ -84,6 +84,27 @@ def oil_sentiment(title):
 
     return "🟡 Neutral"
 
+def calculate_oil_index(articles):
+
+    bullish = 0
+    bearish = 0
+
+    for a in articles:
+
+        if a["sentiment"] == "🟢 Bullish Oil":
+            bullish += 1
+
+        if a["sentiment"] == "🔴 Bearish Oil":
+            bearish += 1
+
+    if bullish > bearish:
+        return "🟢 BULLISH OIL SENTIMENT"
+
+    if bearish > bullish:
+        return "🔴 BEARISH OIL SENTIMENT"
+
+    return "🟡 NEUTRAL OIL SENTIMENT"
+
 @app.get("/news")
 def news():
 
@@ -113,6 +134,7 @@ def news():
     except:
 
         return [{"title":"News service unavailable","url":"#","sentiment":"🟡 Neutral"}]
+
 
 
 
