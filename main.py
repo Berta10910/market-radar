@@ -26,20 +26,29 @@ def prices():
 @app.get("/news")
 def news():
 
-    url = "https://newsapi.org/v2/everything?q=oil OR iran OR opec OR war&language=en&sortBy=publishedAt&pageSize=5&apiKey=05b963f904fe4927a2849248c0870371"
+    try:
 
-    r = requests.get(url)
+        url = "https://newsapi.org/v2/everything?q=oil OR iran OR opec OR war&language=en&sortBy=publishedAt&pageSize=5&apiKey=05b963f904fe4927a2849248c0870371"
 
-    data = r.json()
+        r = requests.get(url)
 
-    articles = []
+        data = r.json()
 
-    for a in data["articles"]:
-        articles.append({
-            "title": a["title"],
-            "url": a["url"]
-        })
+        articles = []
 
-    return articles
+        if "articles" in data:
+
+            for a in data["articles"]:
+                articles.append({
+                    "title": a["title"],
+                    "url": a["url"]
+                })
+
+        return articles
+
+    except Exception as e:
+
+        return [{"title": "News service unavailable", "url": "#"}]
+
 
 
