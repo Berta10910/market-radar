@@ -31,13 +31,14 @@ def alerts():
     prices = get_prices()
 
     brent = prices["brent"]
+    wti = prices["wti"]
 
     alerts = []
 
-    alerts.append(f"DEBUG Brent value = {brent}")
+    alerts.append(f"DEBUG Brent = {brent}")
 
     if brent > 85:
-        alerts.append("⚠ Brent above $85 — test alert")
+        alerts.append("⚠ Brent above $85")
 
     return alerts
 
@@ -138,6 +139,7 @@ def news():
             "sentiment_index": "🟡 NEUTRAL",
             "news": []
         }
+
 
 
 
