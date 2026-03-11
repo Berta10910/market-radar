@@ -53,7 +53,7 @@ def news():
 
     try:
 
-        url = "https://newsapi.org/v2/everything?q=oil OR iran OR opec OR war&language=en&sortBy=publishedAt&pageSize=5&apiKey=05b963f904fe4927a2849248c0870371"
+       url = "https://newsapi.org/v2/everything?q=oil OR opec OR iran OR tanker OR middle east&language=en&sortBy=publishedAt&pageSize=5&apiKey=05b963f904fe4927a2849248c0870371"
 
         r = requests.get(url)
 
@@ -74,6 +74,7 @@ def news():
     except Exception as e:
 
         return [{"title": "News service unavailable", "url": "#"}]
+
 
 
 
