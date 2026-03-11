@@ -24,7 +24,6 @@ def home():
 def prices():
     return get_prices()
 
-
 @app.get("/alerts")
 def alerts():
 
@@ -41,7 +40,6 @@ def alerts():
         alerts.append("⚠ Brent above $85")
 
     return alerts
-
 
 def oil_sentiment(title):
 
@@ -139,6 +137,7 @@ def news():
             "sentiment_index": "🟡 NEUTRAL",
             "news": []
         }
+
 
 
 
