@@ -75,11 +75,11 @@ const response = await fetch("https://market-radar-nz0y.onrender.com/prices");
 
 const data = await response.json();
 
-document.getElementById("brent").innerText = "Brent: " + data.brent.toFixed(2);
-document.getElementById("wti").innerText = "WTI: " + data.wti.toFixed(2);
-document.getElementById("gold").innerText = "Gold: " + data.gold.toFixed(2);
-document.getElementById("sp500").innerText = "S&P500: " + data.sp500.toFixed(2);
-document.getElementById("nasdaq").innerText = "Nasdaq: " + data.nasdaq.toFixed(2);
+document.getElementById("brent").innerText = "Brent: $" + data.brent.toFixed(2) + " / barrel";
+document.getElementById("wti").innerText = "WTI: $" + data.wti.toFixed(2) + " / barrel";
+document.getElementById("gold").innerText = "Gold: $" + data.gold.toFixed(2) + " / oz";
+document.getElementById("sp500").innerText = "S&P500: " + data.sp500.toFixed(2) + " pts";
+document.getElementById("nasdaq").innerText = "Nasdaq: " + data.nasdaq.toFixed(2) + " pts";
 
 }catch(error){
 
