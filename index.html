@@ -128,7 +128,12 @@ data.forEach(n => {
 
 const li = document.createElement("li")
 
-li.innerHTML = `<a href="${n.url}" target="_blank">${n.title}</a>`
+li.innerHTML = `
+<div style="margin:10px">
+${n.sentiment}<br>
+<a href="${n.url}" target="_blank">${n.title}</a>
+</div>
+`
 
 list.appendChild(li)
 
