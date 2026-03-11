@@ -128,6 +128,40 @@ list.appendChild(li)
 }
 
 loadNews()
+
+  async function loadAlerts(){
+
+try{
+
+const response = await fetch("https://market-radar-nz0y.onrender.com/alerts")
+
+const data = await response.json()
+
+const div = document.getElementById("alerts")
+
+div.innerHTML = ""
+
+data.forEach(a => {
+
+const p = document.createElement("p")
+
+p.innerText = a
+
+p.style.color = "orange"
+
+div.appendChild(p)
+
+})
+
+}catch(e){
+
+console.log("Alert error",e)
+
+}
+
+}
+
+loadAlerts()
   
 </script>
 <script src="https://s3.tradingview.com/tv.js"></script>
