@@ -24,6 +24,7 @@ def home():
 def prices():
     return get_prices()
 
+
 @app.get("/alerts")
 def alerts():
 
@@ -34,12 +35,22 @@ def alerts():
 
     alerts = []
 
+    # DEBUG per vedere il valore
     alerts.append(f"DEBUG Brent = {brent}")
 
     if brent > 85:
         alerts.append("⚠ Brent above $85")
 
+    if brent < 80:
+        alerts.append("⚠ Brent below $80")
+
+    spread = brent - wti
+
+    if spread > 5:
+        alerts.append("⚠ Brent-WTI spread high")
+
     return alerts
+
 
 def oil_sentiment(title):
 
@@ -48,34 +59,29 @@ def oil_sentiment(title):
         "attack",
         "sanctions",
         "iran",
-        "houthi",
         "tanker",
         "pipeline",
-        "conflict",
-        "opec cuts",
-        "supply disruption"
+        "conflict"
     ]
 
     bearish_words = [
         "recession",
         "demand drop",
         "oversupply",
-        "production increase",
-        "inventory build",
-        "economic slowdown"
+        "production increase"
     ]
 
     title = title.lower()
 
     for word in bullish_words:
         if word in title:
-            return "🟢 Bullish Oil"
+            return "🟢 Rialzista petrolio"
 
     for word in bearish_words:
         if word in title:
-            return "🔴 Bearish Oil"
+            return "🔴 Ribassista petrolio"
 
-    return "🟡 Neutral"
+    return "🟡 Neutrale"
 
 
 def calculate_oil_index(articles):
@@ -85,19 +91,19 @@ def calculate_oil_index(articles):
 
     for a in articles:
 
-        if a["sentiment"] == "🟢 Bullish Oil":
+        if a["sentiment"] == "🟢 Rialzista petrolio":
             bullish += 1
 
-        if a["sentiment"] == "🔴 Bearish Oil":
+        if a["sentiment"] == "🔴 Ribassista petrolio":
             bearish += 1
 
     if bullish > bearish:
-        return "🟢 BULLISH OIL SENTIMENT"
+        return "🟢 MERCATO PETROLIO RIALZISTA"
 
     if bearish > bullish:
-        return "🔴 BEARISH OIL SENTIMENT"
+        return "🔴 MERCATO PETROLIO RIBASSISTA"
 
-    return "🟡 NEUTRAL OIL SENTIMENT"
+    return "🟡 MERCATO PETROLIO NEUTRALE"
 
 
 @app.get("/news")
@@ -134,15 +140,6 @@ def news():
     except Exception:
 
         return {
-            "sentiment_index": "🟡 NEUTRAL",
+            "sentiment_index": "🟡 NEUTRALE",
             "news": []
         }
-
-
-
-
-
-
-
-
-
