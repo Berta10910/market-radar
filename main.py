@@ -26,7 +26,7 @@ def prices():
 @app.get("/news")
 def news():
 
-    url = "https://newsapi.org/v2/everything?q=oil OR iran OR opec OR war&language=en&sortBy=publishedAt&pageSize=5&apiKey=YOUR_API_KEY"
+    url = "https://newsapi.org/v2/everything?q=oil OR iran OR opec OR war&language=en&sortBy=publishedAt&pageSize=5&apiKey=05b963f904fe4927a2849248c0870371"
 
     r = requests.get(url)
 
@@ -41,4 +41,5 @@ def news():
         })
 
     return articles
+
 
