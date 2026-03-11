@@ -102,17 +102,20 @@ def news():
 
                 sentiment = oil_sentiment(a["title"])
 
-                articles.append({
-                    "title": a["title"],
-                    "url": a["url"],
-                    "sentiment": sentiment
-                })
+                sentiment = oil_sentiment(a["title"])
+
+articles.append({
+    "title": a["title"],
+    "url": a["url"],
+    "sentiment": sentiment
+})
 
         return articles
 
     except:
 
         return [{"title":"News service unavailable","url":"#","sentiment":"🟡 Neutral"}]
+
 
 
 
