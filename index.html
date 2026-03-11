@@ -128,9 +128,11 @@ data.forEach(n => {
 
 const li = document.createElement("li")
 
+const sentiment = n.sentiment || "🟡 Neutral"
+
 li.innerHTML = `
 <div style="margin:10px">
-${n.sentiment}<br>
+${sentiment}<br>
 <a href="${n.url}" target="_blank">${n.title}</a>
 </div>
 `
