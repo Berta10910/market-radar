@@ -75,6 +75,10 @@ color:#4da6ff;
 
 </div>
   <div class="card">
+<h2>Oil Sentiment Index</h2>
+<div id="sentiment" class="price">Loading...</div>
+</div>
+  <div class="card">
 <h2>Market Alerts</h2>
 
 <div id="alerts"></div>
@@ -124,7 +128,9 @@ const list = document.getElementById("news")
 
 list.innerHTML = ""
 
-data.forEach(n => {
+document.getElementById("sentiment").innerText = data.sentiment_index
+
+data.news.forEach(n => {
 
 const li = document.createElement("li")
 
