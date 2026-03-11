@@ -35,16 +35,8 @@ def alerts():
 
     alerts = []
 
-    if brent > 90:
-        alerts.append("⚠ Brent above $90 — possible supply tension")
-
-    if brent < 80:
-        alerts.append("⚠ Brent below $80 — demand weakness")
-
-    spread = brent - wti
-
-    if spread > 5:
-        alerts.append("⚠ Brent-WTI spread widening — geopolitical risk possible")
+    if brent > 85:
+    alerts.append("⚠ Brent above $85 — test alert")
 
     return alerts
 
@@ -145,6 +137,7 @@ def news():
             "sentiment_index": "🟡 NEUTRAL",
             "news": []
         }
+
 
 
 
