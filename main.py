@@ -23,6 +23,23 @@ def home():
 def prices():
     return get_prices()
 
+@app.get("/alerts")
+def alerts():
+
+    prices = get_prices()
+
+    brent = prices["brent"]
+
+    alerts = []
+
+    if brent > 90:
+        alerts.append("⚠ Brent above $90 — possible supply tension")
+
+    if brent < 80:
+        alerts.append("⚠ Brent below $80 — demand weakness")
+
+    return alerts
+
 @app.get("/news")
 def news():
 
@@ -49,6 +66,7 @@ def news():
     except Exception as e:
 
         return [{"title": "News service unavailable", "url": "#"}]
+
 
 
 
