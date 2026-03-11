@@ -48,15 +48,50 @@ def alerts():
 
     return alerts
 
+def oil_sentiment(title):
+
+    bullish_words = [
+        "war",
+        "attack",
+        "sanctions",
+        "iran",
+        "houthi",
+        "tanker",
+        "pipeline",
+        "conflict",
+        "opec cuts",
+        "supply disruption"
+    ]
+
+    bearish_words = [
+        "recession",
+        "demand drop",
+        "oversupply",
+        "production increase",
+        "inventory build",
+        "economic slowdown"
+    ]
+
+    title = title.lower()
+
+    for word in bullish_words:
+        if word in title:
+            return "🟢 Bullish Oil"
+
+    for word in bearish_words:
+        if word in title:
+            return "🔴 Bearish Oil"
+
+    return "🟡 Neutral"
+
 @app.get("/news")
 def news():
 
     try:
 
-       url = "https://newsapi.org/v2/everything?q=oil OR opec OR iran OR tanker OR middle east&language=en&sortBy=publishedAt&pageSize=5&apiKey=05b963f904fe4927a2849248c0870371"
+        url = "https://newsapi.org/v2/everything?q=oil OR opec OR iran OR tanker OR middle east&language=en&sortBy=publishedAt&pageSize=5&apiKey=TUACHIAVE"
 
         r = requests.get(url)
-
         data = r.json()
 
         articles = []
@@ -64,16 +99,21 @@ def news():
         if "articles" in data:
 
             for a in data["articles"]:
+
+                sentiment = oil_sentiment(a["title"])
+
                 articles.append({
                     "title": a["title"],
-                    "url": a["url"]
+                    "url": a["url"],
+                    "sentiment": sentiment
                 })
 
         return articles
 
-    except Exception as e:
+    except:
 
-        return [{"title": "News service unavailable", "url": "#"}]
+        return [{"title":"News service unavailable","url":"#","sentiment":"🟡 Neutral"}]
+
 
 
 
