@@ -29,14 +29,22 @@ def alerts():
     prices = get_prices()
 
     brent = prices["brent"]
+    wti = prices["wti"]
 
     alerts = []
 
+    # livello psicologico petrolio
     if brent > 90:
         alerts.append("⚠ Brent above $90 — possible supply tension")
 
     if brent < 80:
         alerts.append("⚠ Brent below $80 — demand weakness")
+
+    # spread Brent / WTI
+    spread = brent - wti
+
+    if spread > 5:
+        alerts.append("⚠ Brent-WTI spread widening — geopolitical risk possible")
 
     return alerts
 
@@ -66,6 +74,7 @@ def news():
     except Exception as e:
 
         return [{"title": "News service unavailable", "url": "#"}]
+
 
 
 
