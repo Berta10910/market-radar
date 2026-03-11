@@ -19,9 +19,11 @@ app.add_middleware(
 def home():
     return {"message": "Market Radar API running"}
 
+
 @app.get("/prices")
 def prices():
     return get_prices()
+
 
 @app.get("/alerts")
 def alerts():
@@ -33,20 +35,19 @@ def alerts():
 
     alerts = []
 
-    # livello psicologico petrolio
     if brent > 90:
         alerts.append("⚠ Brent above $90 — possible supply tension")
 
     if brent < 80:
         alerts.append("⚠ Brent below $80 — demand weakness")
 
-    # spread Brent / WTI
     spread = brent - wti
 
     if spread > 5:
         alerts.append("⚠ Brent-WTI spread widening — geopolitical risk possible")
 
     return alerts
+
 
 def oil_sentiment(title):
 
@@ -84,6 +85,7 @@ def oil_sentiment(title):
 
     return "🟡 Neutral"
 
+
 def calculate_oil_index(articles):
 
     bullish = 0
@@ -105,6 +107,7 @@ def calculate_oil_index(articles):
 
     return "🟡 NEUTRAL OIL SENTIMENT"
 
+
 @app.get("/news")
 def news():
 
@@ -119,28 +122,26 @@ def news():
 
         if "articles" in data:
 
-           for a in data["articles"]:
+            for a in data["articles"]:
 
-    sentiment = oil_sentiment(a["title"])
+                sentiment = oil_sentiment(a["title"])
 
-    articles.append({
-        "title": a["title"],
-        "url": a["url"],
-        "sentiment": sentiment
-    })
+                articles.append({
+                    "title": a["title"],
+                    "url": a["url"],
+                    "sentiment": sentiment
+                })
 
-        return articles
+        index = calculate_oil_index(articles)
 
-    except:
+        return {
+            "sentiment_index": index,
+            "news": articles
+        }
 
-        return [{"title":"News service unavailable","url":"#","sentiment":"🟡 Neutral"}]
+    except Exception:
 
-
-
-
-
-
-
-
-
-
+        return {
+            "sentiment_index": "🟡 NEUTRAL",
+            "news": []
+        }
