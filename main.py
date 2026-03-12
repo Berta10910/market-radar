@@ -112,6 +112,8 @@ def calculate_oil_index(articles):
 import feedparser
 
 
+import feedparser
+
 @app.get("/news")
 def news():
 
@@ -122,35 +124,37 @@ def news():
 
     articles = []
 
-    for feed_url in feeds:
+    try:
 
-        feed = feedparser.parse(feed_url)
+        for feed_url in feeds:
 
-        for entry in feed.entries[:5]:
+            feed = feedparser.parse(feed_url)
 
-            sentiment = oil_sentiment(entry.title)
+            for entry in feed.entries[:5]:
 
-            articles.append({
-                "title": entry.title,
-                "url": entry.link,
-                "sentiment": sentiment
-            })
+                sentiment = oil_sentiment(entry.title)
 
-    # prendiamo solo le 5 più recenti
-    articles = articles[:5]
+                articles.append({
+                    "title": entry.title,
+                    "url": entry.link,
+                    "sentiment": sentiment
+                })
 
-    index = calculate_oil_index(articles)
+        articles = articles[:5]
 
-    return {
-        "sentiment_index": index,
-        "news": articles
-    }
+        index = calculate_oil_index(articles)
+
+        return {
+            "sentiment_index": index,
+            "news": articles
+        }
 
     except Exception:
 
         return {
-            "sentiment_index": "🟡 NEUTRALE",
+            "sentiment_index": "🟡 MERCATO NEUTRALE",
             "news": []
         }
+
 
 
