@@ -57,18 +57,21 @@ def oil_sentiment(title):
     bullish_words = [
         "war",
         "attack",
-        "sanctions",
         "iran",
+        "hormuz",
         "tanker",
         "pipeline",
-        "conflict"
+        "sanctions",
+        "opec cuts",
+        "supply disruption"
     ]
 
     bearish_words = [
         "recession",
         "demand drop",
         "oversupply",
-        "production increase"
+        "production increase",
+        "inventory build"
     ]
 
     title = title.lower()
@@ -106,36 +109,42 @@ def calculate_oil_index(articles):
     return "🟡 MERCATO PETROLIO NEUTRALE"
 
 
+import feedparser
+
+
 @app.get("/news")
 def news():
 
-    try:
+    feeds = [
+        "https://www.oilprice.com/rss/main",
+        "https://www.reuters.com/markets/commodities/rss"
+    ]
 
-        url = "https://newsapi.org/v2/top-headlines?category=business&language=en&pageSize=5&apiKey=05b963f904fe4927a2849248c0870371"
+    articles = []
 
-        r = requests.get(url)
-        data = r.json()
+    for feed_url in feeds:
 
-        articles = []
+        feed = feedparser.parse(feed_url)
 
-        if "articles" in data:
+        for entry in feed.entries[:5]:
 
-            for a in data["articles"]:
+            sentiment = oil_sentiment(entry.title)
 
-                sentiment = oil_sentiment(a["title"])
+            articles.append({
+                "title": entry.title,
+                "url": entry.link,
+                "sentiment": sentiment
+            })
 
-                articles.append({
-                    "title": a["title"],
-                    "url": a["url"],
-                    "sentiment": sentiment
-                })
+    # prendiamo solo le 5 più recenti
+    articles = articles[:5]
 
-        index = calculate_oil_index(articles)
+    index = calculate_oil_index(articles)
 
-        return {
-            "sentiment_index": index,
-            "news": articles
-        }
+    return {
+        "sentiment_index": index,
+        "news": articles
+    }
 
     except Exception:
 
@@ -143,4 +152,5 @@ def news():
             "sentiment_index": "🟡 NEUTRALE",
             "news": []
         }
+
 
